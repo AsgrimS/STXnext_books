@@ -9,6 +9,3 @@ from books.utils import verify_date
 )
 def test_verify_date(value, expected):
     assert verify_date(value) == expected
-
-def test_get_books():
-    
