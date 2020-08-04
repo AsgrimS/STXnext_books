@@ -4,7 +4,9 @@ import uuid
 
 
 class Author(models.Model):
-    name = models.TextField(unique=True)  # Using text fields because maximum number of characters is unknown
+    name = models.TextField(
+        unique=True
+    )  # Using text fields because maximum number of characters is unknown
 
     def __str__(self):
         return self.name

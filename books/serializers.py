@@ -31,5 +31,6 @@ class BookSerializer(serializers.ModelSerializer):
             "thumbnail",
         ]
 
+
 class QBookSerializer(serializers.Serializer):
     q = serializers.CharField(required=True)

@@ -7,39 +7,57 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Author',
+            name="Author",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField(unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.TextField(unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('tag', models.TextField(unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("tag", models.TextField(unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Book',
+            name="Book",
             fields=[
-                ('book_id', models.TextField(editable=False, primary_key=True, serialize=False)),
-                ('title', models.TextField()),
-                ('published_date', models.DateField(null=True)),
-                ('average_rating', models.DecimalField(decimal_places=1, max_digits=2, null=True)),
-                ('ratings_count', models.IntegerField(null=True)),
-                ('thumbnail', models.URLField(null=True)),
-                ('authors', models.ManyToManyField(to='books.Author')),
-                ('categories', models.ManyToManyField(to='books.Category')),
+                (
+                    "book_id",
+                    models.TextField(editable=False, primary_key=True, serialize=False),
+                ),
+                ("title", models.TextField()),
+                ("published_date", models.DateField(null=True)),
+                (
+                    "average_rating",
+                    models.DecimalField(decimal_places=1, max_digits=2, null=True),
+                ),
+                ("ratings_count", models.IntegerField(null=True)),
+                ("thumbnail", models.URLField(null=True)),
+                ("authors", models.ManyToManyField(to="books.Author")),
+                ("categories", models.ManyToManyField(to="books.Category")),
             ],
-            options={
-                'verbose_name': 'book',
-                'verbose_name_plural': 'books',
-            },
+            options={"verbose_name": "book", "verbose_name_plural": "books",},
         ),
     ]
