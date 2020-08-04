@@ -4,13 +4,13 @@ import requests
 from books.models import Book, Author, Category
 
 
-def printSuccesMessage():
+def print_succes_message():
     print("-----------------")
     print("Database updated")
     print("-----------------")
 
 
-def getBooks(value, pagination_size, start_index):
+def get_books(value, pagination_size, start_index):
     r = requests.get(
         f"https://www.googleapis.com/books/v1/volumes?q={value}&maxResults={pagination_size}&startIndex={start_index}"
     )
@@ -35,7 +35,7 @@ def create_and_add_categories(categories, book_instance):
             book_instance.categories.add(c)
 
 
-def createAndSaveBook(book):
+def create_and_save_book(book):
     book_id = book["id"]
     title = book["volumeInfo"].get("title")
     authors = book["volumeInfo"].get("authors")
@@ -70,7 +70,7 @@ def createAndSaveBook(book):
     create_and_add_categories(categories, b)
 
 
-def updateDataBase(value):
+def update_data_base(value):
 
     pagination_size = 40  # Maximal size of the google API pagination
     chunk_book_count = pagination_size
@@ -78,7 +78,7 @@ def updateDataBase(value):
     chunk_num = 1
 
     while chunk_book_count == pagination_size:
-        items = getBooks(value, pagination_size, start_index)
+        items = get_books(value, pagination_size, start_index)
 
         chunk_book_count = 0
 
@@ -92,6 +92,6 @@ def updateDataBase(value):
         chunk_num += 1
 
         for book in tqdm(items):
-            createAndSaveBook(book)
+            create_and_save_book(book)
 
-    printSuccesMessage()
+    print_succes_message()

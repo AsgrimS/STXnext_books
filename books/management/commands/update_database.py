@@ -10,5 +10,5 @@ class Command(BaseCommand):
     help = "Updates books database"
 
     def handle(self, *args, **options):
-        utils.updateDataBase("Hobbit")
+        utils.update_data_base("Hobbit")
 

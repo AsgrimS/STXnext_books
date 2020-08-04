@@ -43,5 +43,5 @@ class PostBookView(APIView):
         serializer = QSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         value = serializer.data["q"]
-        utils.updateDataBase(value)
+        utils.update_data_base(value)
         return Response("ok")
