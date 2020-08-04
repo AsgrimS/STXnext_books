@@ -5,11 +5,11 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 
 from .models import Book
-from .serializers import BookSerializer, QSerializer
+from .serializers import BookSerializer, QBookSerializer
 from . import utils
 
 
-class BookViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin ,GenericViewSet):
+class BookViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
 
     serializer_class = BookSerializer
     permission_classes = (permissions.AllowAny,)
@@ -22,8 +22,8 @@ class BookViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin ,GenericViewS
         sort_by = self.request.query_params.get("sort", None)
 
         if published_date is not None:
-            if not published_date.isnumeric():
-                raise ValidationError(detail="date must be numeric" ,code=400)
+            # if not published_date.isnumeric():
+            #     raise ValidationError(detail="date must be numeric", code=400)
             queryset = queryset.filter(published_date__year=published_date)
 
         if author is not None:
@@ -36,12 +36,13 @@ class BookViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin ,GenericViewS
 
         return queryset
 
-class PostBookView(APIView):
+
+class QBookView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
-        serializer = QSerializer(data=request.data)
+        serializer = QBookSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         value = serializer.data["q"]
         utils.update_data_base(value)
-        return Response("ok")
+        return Response("Database Updated")

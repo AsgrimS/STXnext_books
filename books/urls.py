@@ -1,13 +1,13 @@
 from rest_framework import routers
 from django.urls import path
 
-from .views import BookViewSet, PostBookView
+from .views import BookViewSet, QBookView
 
-app_name = 'books'
+app_name = "books"
 
 router = routers.DefaultRouter()
 
-router.register('', BookViewSet, "books")
+router.register("", BookViewSet, "books")
 
 
-urlpatterns = [path("db/", PostBookView.as_view(), name="db")] + router.urls
+urlpatterns = [path("db/", QBookView.as_view(), name="db")] + router.urls

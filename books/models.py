@@ -2,18 +2,23 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import uuid
 
+
 class Author(models.Model):
-    name = models.TextField(unique=True) # Using text fields....
+    name = models.TextField(unique=True)  # Using text fields because maximum number of characters is unknown
+
     def __str__(self):
         return self.name
-    
+
+
 class Category(models.Model):
     tag = models.TextField(unique=True)
+
     def __str__(self):
         return self.tag
-    
 
-#Since data in google API is not consistent across all the books and some of them lack fields like rating/authors etc.. 
+
+# Since data in google API is not consistent across all books and some of them lack fields like
+# rating/authors etc.. some of the fields are null-able
 class Book(models.Model):
     book_id = models.TextField(primary_key=True, editable=False)
     title = models.TextField()

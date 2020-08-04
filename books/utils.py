@@ -35,6 +35,17 @@ def create_and_add_categories(categories, book_instance):
             book_instance.categories.add(c)
 
 
+# published dates vary in format on the google api. This function makes sure that all dates are converted to the YYYY-MM-DD format
+def verify_date(date):
+    if date is not None:
+        date = date.strip("*")
+        if len(date) == 4:
+            date = f"{date}-01-01"
+        if len(date) == 7:
+            date = f"{date}-01"
+    return date
+
+
 def create_and_save_book(book):
     book_id = book["id"]
     title = book["volumeInfo"].get("title")
@@ -45,16 +56,11 @@ def create_and_save_book(book):
     ratings_count = book["volumeInfo"].get("ratingsCount")
     thumbnail = book["volumeInfo"].get("imageLinks")
 
+    # If there is a thumbnail, normal has higher priority over small
     if thumbnail is not None:
         thumbnail = thumbnail.get("thumbnail", thumbnail.get("smallThumbnail"))
 
-    # published date varies in format on the google api. This fragment makes sure that all dates are converted to the YYYY-MM-DD format
-    if published_date is not None: 
-        published_date = published_date.strip("*")
-        if len(published_date) == 4:
-            published_date = f"{published_date}-01-01"
-        if len(published_date) == 7:
-            published_date = f"{published_date}-01"
+    published_date = verify_date(published_date)
 
     b = Book(
         book_id=book_id,
@@ -66,6 +72,7 @@ def create_and_save_book(book):
     )
 
     b.save()
+
     create_and_add_authors(authors, b)
     create_and_add_categories(categories, b)
 
