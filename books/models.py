@@ -13,6 +13,7 @@ class Category(models.Model):
         return self.tag
     
 
+#Since data in google API is not consistent across all the books and some of them lack fields like rating/authors etc.. 
 class Book(models.Model):
     book_id = models.TextField(primary_key=True, editable=False)
     title = models.TextField()
