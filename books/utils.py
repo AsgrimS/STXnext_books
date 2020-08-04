@@ -35,7 +35,7 @@ def create_and_add_categories(categories, book_instance):
             book_instance.categories.add(c)
 
 
-# published dates vary in format on the google api. This function makes sure that all dates are converted to the YYYY-MM-DD format
+# published dates vary in format on the google api. This function makes sure that all dates in hobbit and war search are converted to the YYYY-MM-DD format
 def parse_date(date):
     if date is not None:
         date = date.strip("*")
