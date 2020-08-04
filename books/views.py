@@ -33,7 +33,7 @@ class BookViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewS
             queryset = queryset.order_by("published_date")
         elif sort_by == "-published_date":
             queryset = queryset.order_by("-published_date")
-
+    
         return queryset
 
 
