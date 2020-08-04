@@ -1,3 +1,5 @@
+import re
+
 from rest_framework import mixins, permissions
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.views import APIView
@@ -5,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 
 from .models import Book
-from .serializers import BookSerializer, QBookSerializer
+from .serializers import BookSerializer, DbUpdateSerializer
 from . import utils
 
 
@@ -21,28 +23,32 @@ class BookViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewS
         author = self.request.query_params.get("author", None)
         sort_by = self.request.query_params.get("sort", None)
 
+        allowed_sort_by = {"published_date", "-published_date"}
+
         if published_date is not None:
-            # if not published_date.isnumeric():
-            #     raise ValidationError(detail="date must be numeric", code=400)
+
+            if not re.match(r"^\d{4}$", published_date):
+                raise ValidationError("Value for published date has to be year (4 digits)")
+
             queryset = queryset.filter(published_date__year=published_date)
 
         if author is not None:
             queryset = queryset.filter(authors__name=author)
 
-        if sort_by == "published_date":
-            queryset = queryset.order_by("published_date")
-        elif sort_by == "-published_date":
-            queryset = queryset.order_by("-published_date")
+        if sort_by in allowed_sort_by:
+            queryset = queryset.order_by(sort_by)
 
         return queryset
 
 
-class QBookView(APIView):
+class DbUpdateView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
-        serializer = QBookSerializer(data=request.data)
+        serializer = DbUpdateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         value = serializer.data["q"]
-        utils.update_data_base(value)
+        utils.update_database(value, logging=False) # In order to see progress bars like with using update_database command change to True
+
         return Response("Database Updated")

@@ -32,5 +32,5 @@ class BookSerializer(serializers.ModelSerializer):
         ]
 
 
-class QBookSerializer(serializers.Serializer):
+class DbUpdateSerializer(serializers.Serializer):
     q = serializers.CharField(required=True)

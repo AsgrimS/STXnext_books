@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-import uuid
 
 
 class Author(models.Model):
@@ -11,12 +10,20 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = _("author")
+        verbose_name_plural = _("authors")
+
 
 class Category(models.Model):
     tag = models.TextField(unique=True)
 
     def __str__(self):
         return self.tag
+
+    class Meta:
+        verbose_name = _("category")
+        verbose_name_plural = _("categories")
 
 
 # Since data in google API is not consistent across all books and some of them lack fields like

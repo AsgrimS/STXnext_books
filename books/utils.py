@@ -4,17 +4,17 @@ import requests
 from books.models import Book, Author, Category
 
 
-def print_succes_message():
+def print_success_message():
     print("-----------------")
     print("Database updated")
     print("-----------------")
 
 
 def get_books(value, pagination_size, start_index):
-    r = requests.get(
+    response = requests.get(
         f"https://www.googleapis.com/books/v1/volumes?q={value}&maxResults={pagination_size}&startIndex={start_index}"
     )
-    book_json = r.json()
+    book_json = response.json()
     items = book_json["items"]
     return items
 
@@ -36,7 +36,7 @@ def create_and_add_categories(categories, book_instance):
 
 
 # published dates vary in format on the google api. This function makes sure that all dates are converted to the YYYY-MM-DD format
-def verify_date(date):
+def parse_date(date):
     if date is not None:
         date = date.strip("*")
         if len(date) == 4:
@@ -60,9 +60,9 @@ def create_and_save_book(book):
     if thumbnail is not None:
         thumbnail = thumbnail.get("thumbnail", thumbnail.get("smallThumbnail"))
 
-    published_date = verify_date(published_date)
+    published_date = parse_date(published_date)
 
-    b = Book(
+    book = Book(
         book_id=book_id,
         title=title,
         published_date=published_date,
@@ -71,13 +71,13 @@ def create_and_save_book(book):
         thumbnail=thumbnail,
     )
 
-    b.save()
+    book.save()
 
-    create_and_add_authors(authors, b)
-    create_and_add_categories(categories, b)
+    create_and_add_authors(authors, book)
+    create_and_add_categories(categories, book)
 
 
-def update_data_base(value):
+def update_database(value, logging=True):
 
     pagination_size = 40  # Maximal size of the google API pagination
     chunk_book_count = pagination_size
@@ -87,18 +87,16 @@ def update_data_base(value):
     while chunk_book_count == pagination_size:
         items = get_books(value, pagination_size, start_index)
 
-        chunk_book_count = 0
-
-        for book in items:
-            chunk_book_count += 1
-
+        chunk_book_count = len(items)
         start_index += chunk_book_count
 
-        print(f"Loading #{chunk_num} chunk...")
+        if logging:
+            print(f"Loading #{chunk_num} chunk...")
 
         chunk_num += 1
 
-        for book in tqdm(items):
+        for book in tqdm(items, disable=(not logging)):
             create_and_save_book(book)
 
-    print_succes_message()
+    if logging:
+        print_success_message()
