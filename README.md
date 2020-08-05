@@ -15,4 +15,6 @@ To see progress bards in console during POST, you have to change loggin value in
 
 To run tests simply enter `pytest` in the terminal
   
-Dont forget to start database with `docker-compose up -d`
+Don't forget to start database with `docker-compose up -d`
+
+Application is downloading books to the local Postgresql database, and creates api based on it. Each time `python manage.py update_database` is used or POST with required body is sent, database is reviewed and updated.
