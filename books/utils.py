@@ -35,11 +35,10 @@ def create_and_add_categories(categories, book_instance):
             book_instance.categories.add(c)
 
 
-# published dates vary in format on the google api. This function makes sure that all dates in hobbit and war search are converted to the YYYY-MM-DD format
+# published dates vary in format on the google api. This function makes sure that all dates in searches are converted to the YYYY-MM-DD format
 def parse_date(date):
     if date is not None:
         date = date.strip("*")
-        # Some of the dates are containing question mark like (200?-01-01). This fragment changes ? to 0 to make it compatible with django datefield
         date = date.replace("?", "0")
         if len(date) == 4:
             date = f"{date}-01-01"
@@ -81,7 +80,7 @@ def create_and_save_book(book):
 
 def update_database(value, logging=True):
 
-    pagination_size = 40  # Maximal size of the google API pagination
+    pagination_size = 40  # Maximal size of the google's API pagination
     chunk_book_count = pagination_size
     start_index = 0
     chunk_num = 1

@@ -11,6 +11,7 @@ You can sort them with query params like:
   `http://127.0.0.1:8000/api/books/?author=J. R. R. Tolkien`
   
 To add new books make a POST to `http://127.0.0.1:8000/api/db` with body `{"q":"<e.g. war>"}`
+To see progress bards in console during POST, you have to change loggin value in `views.py` to `True`
 
 To run tests simply enter `pytest` in the terminal
   

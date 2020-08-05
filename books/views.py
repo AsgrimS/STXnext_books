@@ -28,7 +28,9 @@ class BookViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewS
         if published_date is not None:
 
             if not re.match(r"^\d{4}$", published_date):
-                raise ValidationError("Value for published date has to be year (4 digits)")
+                raise ValidationError(
+                    "Value for published date has to be year (4 digits)"
+                )
 
             queryset = queryset.filter(published_date__year=published_date)
 
@@ -49,6 +51,8 @@ class DbUpdateView(APIView):
         serializer.is_valid(raise_exception=True)
 
         value = serializer.data["q"]
-        utils.update_database(value, logging=False) # In order to see progress bars like with using update_database command change to True
+        utils.update_database(
+            value, logging=False
+        )  # In order to see progress bars like when using update_database command, change loggin to True
 
         return Response("Database Updated")

@@ -3,9 +3,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Author(models.Model):
-    name = models.TextField(
-        unique=True
-    )  # Using text fields because maximum number of characters is unknown
+    # Using text fields because maximum number of characters is unknown
+    name = models.TextField(unique=True)
 
     def __str__(self):
         return self.name
@@ -27,9 +26,11 @@ class Category(models.Model):
 
 
 # Since data in google API is not consistent across all books and some of them lack fields like
-# rating/authors etc.. some of the fields are null-able
+# rating/authors etc.. part of the fields are null-able
 class Book(models.Model):
-    book_id = models.TextField(primary_key=True, editable=False)
+    book_id = models.TextField(
+        primary_key=True, editable=False
+    )  # Using ID of book from google's api as a primary key
     title = models.TextField()
     authors = models.ManyToManyField("books.Author")
     published_date = models.DateField(null=True)

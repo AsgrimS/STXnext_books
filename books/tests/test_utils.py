@@ -14,7 +14,12 @@ from books.models import Book
 
 @pytest.mark.parametrize(
     "value, expected",
-    (("2000", "2000-01-01"), ("1990-06", "1990-06-01"), ("1854-10-12", "1854-10-12"), ("199?-03-02", "1990-03-02")),
+    (
+        ("2000", "2000-01-01"),
+        ("1990-06", "1990-06-01"),
+        ("1854-10-12", "1854-10-12"),
+        ("199?-03-02", "1990-03-02"),
+    ),
 )
 def test_parse_date(value, expected):
     assert parse_date(value) == expected
@@ -36,9 +41,10 @@ def test_get_books(requests_mock):
 @pytest.mark.django_db
 def test_create_and_add_authors_and_categories():
     test_authors = ["John Test", "Bob Test"]
-    test_categories = ["Fantasy", "Bilbo", "Unicorns"]
+    additional_authors = ["Sam Smith", "David Mouse"]
+    test_book_id = "123456"
     test_book = Book(
-        book_id="123456",
+        book_id=test_book_id,
         title="Test",
         published_date="2020-01-01",
         average_rating="2.1",
@@ -46,35 +52,65 @@ def test_create_and_add_authors_and_categories():
         thumbnail="http:/test",
     )
     test_book.save()
-
     create_and_add_authors(authors=test_authors, book_instance=test_book)
-    create_and_add_categories(categories=test_categories, book_instance=test_book)
-
-    book = Book.objects.get(book_id="123456")
-
+    book = Book.objects.get(book_id=test_book_id)
     assert book.authors.count() == 2
+
+    # In case of future update in database
+    create_and_add_authors(authors=additional_authors, book_instance=test_book)
+    assert book.authors.count() == 4
+
+
+@pytest.mark.django_db
+def test_create_and_add_categories():
+    test_categories = ["Fantasy", "Bilbo", "Unicorns"]
+    additional_categories = ["Dragons"]
+    test_book_id = "123456"
+    test_book = Book(
+        book_id=test_book_id,
+        title="Test",
+        published_date="2020-01-01",
+        average_rating="2.1",
+        ratings_count=21,
+        thumbnail="http:/test",
+    )
+    test_book.save()
+    create_and_add_categories(categories=test_categories, book_instance=test_book)
+    book = Book.objects.get(book_id=test_book_id)
     assert book.categories.count() == 3
+
+    # In case of future update in database
+    create_and_add_categories(categories=additional_categories, book_instance=test_book)
+    assert book.categories.count() == 4
 
 
 @pytest.mark.django_db
 def test_create_and_save_book():
+
+    test_id = "123456"
+    test_titile = "TestTitle"
+    test_published_date = "2020-01-01"
+    test_average_rating = "2.1"
+    test_rating_count = 21
+    test_img_url = "http/image"
+
     test_book_json = {
-        "id": "123456",
+        "id": test_id,
         "volumeInfo": {
-            "title": "TestTitle",
-            "publishedDate": "2020-01-01",
-            "averageRating": "2.1",
-            "ratingsCount": 21,
-            "imageLinks": {"thumbnail": "http/image"},
+            "title": test_titile,
+            "publishedDate": test_published_date,
+            "averageRating": test_average_rating,
+            "ratingsCount": test_rating_count,
+            "imageLinks": {"thumbnail": test_img_url},
         },
     }
     create_and_save_book(book=test_book_json)
-    book = Book.objects.get(book_id="123456")
+    book = Book.objects.get(book_id=test_id)
 
-    assert book.book_id == "123456"
-    assert book.title == "TestTitle"
+    assert book.book_id == test_id
+    assert book.title == test_titile
     assert book.published_date == datetime(2020, 1, 1).date()
-    assert book.average_rating == Decimal("2.1")
-    assert book.ratings_count == 21
-    assert book.thumbnail == "http/image"
+    assert book.average_rating == Decimal(test_average_rating)
+    assert book.ratings_count == test_rating_count
+    assert book.thumbnail == test_img_url
     assert Book.objects.count() == 1
