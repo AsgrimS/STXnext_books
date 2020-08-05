@@ -17,4 +17,4 @@ To run tests simply enter `pytest` in the terminal
   
 Don't forget to start database with `docker-compose up -d`
 
-Application is downloading books to the local Postgresql database, and creates api based on it. Each time `python manage.py update_database` is used or POST with required body is sent, database is reviewed and updated.
+Application downloads books to the local Postgresql database, and creates api based on it. Each time `python manage.py update_database` is used or POST with required body is sent, database is reviewed and updated.
