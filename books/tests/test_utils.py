@@ -9,7 +9,7 @@ from books.utils import (
     create_and_add_authors,
     create_and_add_categories,
 )
-from books.models import Book
+from books.models import Book, Author, Category
 
 
 @pytest.mark.parametrize(
@@ -39,9 +39,12 @@ def test_get_books(requests_mock):
 
 
 @pytest.mark.django_db
-def test_create_and_add_authors_and_categories():
+def test_create_and_add_authors():
     test_authors = ["John Test", "Bob Test"]
-    additional_authors = ["Sam Smith", "David Mouse"]
+    different_test_author = "Sam Smith"
+    Author.objects.create(name=test_authors[0])
+    Author.objects.create(name=different_test_author)
+
     test_book_id = "123456"
     test_book = Book(
         book_id=test_book_id,
@@ -55,16 +58,16 @@ def test_create_and_add_authors_and_categories():
     create_and_add_authors(authors=test_authors, book_instance=test_book)
     book = Book.objects.get(book_id=test_book_id)
     assert book.authors.count() == 2
-
-    # In case of future update in database
-    create_and_add_authors(authors=additional_authors, book_instance=test_book)
-    assert book.authors.count() == 4
+    assert Author.objects.count() == 3
 
 
 @pytest.mark.django_db
 def test_create_and_add_categories():
     test_categories = ["Fantasy", "Bilbo", "Unicorns"]
-    additional_categories = ["Dragons"]
+    different_test_category = "Dragons"
+    Category.objects.create(tag=test_categories[0])
+    Category.objects.create(tag=different_test_category)
+
     test_book_id = "123456"
     test_book = Book(
         book_id=test_book_id,
@@ -78,10 +81,7 @@ def test_create_and_add_categories():
     create_and_add_categories(categories=test_categories, book_instance=test_book)
     book = Book.objects.get(book_id=test_book_id)
     assert book.categories.count() == 3
-
-    # In case of future update in database
-    create_and_add_categories(categories=additional_categories, book_instance=test_book)
-    assert book.categories.count() == 4
+    assert Category.objects.count() == 4
 
 
 @pytest.mark.django_db
