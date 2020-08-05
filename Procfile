@@ -1,1 +1,1 @@
-web: gunicorn books_api.wsgi
+web: gunicorn books_api.wsgi --timeout 120
