@@ -14,7 +14,7 @@ from books.models import Book
 
 @pytest.mark.parametrize(
     "value, expected",
-    (("2000", "2000-01-01"), ("1990-06", "1990-06-01"), ("1854-10-12", "1854-10-12")),
+    (("2000", "2000-01-01"), ("1990-06", "1990-06-01"), ("1854-10-12", "1854-10-12"), ("199?-03-02", "1990-03-02")),
 )
 def test_parse_date(value, expected):
     assert parse_date(value) == expected

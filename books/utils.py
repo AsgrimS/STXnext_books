@@ -39,6 +39,8 @@ def create_and_add_categories(categories, book_instance):
 def parse_date(date):
     if date is not None:
         date = date.strip("*")
+        # Some of the dates are containing question mark like (200?-01-01). This fragment changes ? to 0 to make it compatible with django datefield
+        date = date.replace("?", "0")
         if len(date) == 4:
             date = f"{date}-01-01"
         if len(date) == 7:
