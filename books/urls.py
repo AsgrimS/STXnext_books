@@ -7,7 +7,7 @@ app_name = "books"
 
 router = routers.DefaultRouter()
 
-router.register("", BookViewSet, "books")
+router.register("books", BookViewSet, "books")
 
 
-urlpatterns = [path("db/", DbUpdateView.as_view(), name="db")] + router.urls
+urlpatterns = [path("db", DbUpdateView.as_view(), name="db")] + router.urls
