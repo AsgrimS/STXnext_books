@@ -30,9 +30,9 @@ class Category(models.Model):
 class Book(models.Model):
     book_id = models.TextField(primary_key=True, editable=False)  # Using ID of book from google's api as a primary key
     title = models.TextField(null=True)
-    authors = models.ManyToManyField("books.Author", null=True)
+    authors = models.ManyToManyField("books.Author")
     published_date = models.DateField(null=True)
-    categories = models.ManyToManyField("books.Category", null=True)
+    categories = models.ManyToManyField("books.Category")
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
     ratings_count = models.IntegerField(null=True)
     thumbnail = models.URLField(null=True)
