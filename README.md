@@ -10,7 +10,7 @@ You can sort them with query params like:
   `http://127.0.0.1:8000/api/books/?sort=-published_date`
   `http://127.0.0.1:8000/api/books/?author=J. R. R. Tolkien`
   
-To add new books make a POST to `http://127.0.0.1:8000/api/db` with body `{"q":"war"}`
+To add new books make a POST to `http://127.0.0.1:8000/api/db` with body `{"q":"<example: war>"}`
 
 To run tests simply enter `pytest` in the terminal
   
