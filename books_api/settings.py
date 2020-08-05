@@ -90,6 +90,7 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+# Comment the next line out to use locally
 DATABASES["default"] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 
