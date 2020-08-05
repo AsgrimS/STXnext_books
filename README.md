@@ -18,7 +18,9 @@ To add new books make a POST to `http://127.0.0.1:8000/db` with body `{"q":"<e.g
 To see progress bars in the console during POST, you have to change `loggin` value in `views.py` to `True`
 
 To run tests simply enter `pytest` in the terminal
-  
-Don't forget to start database with `docker-compose up -d`
+ 
+
+In case of local dev don't forget to start database with `docker-compose up -d` and comment out: <br>
+`DATABASES["default"] = dj_database_url.config(conn_max_age=600, ssl_require=True)`<br>
 
 
