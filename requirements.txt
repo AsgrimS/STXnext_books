@@ -10,6 +10,7 @@ click==7.1.2
 decorator==4.4.2
 Django==3.0.9
 djangorestframework==3.11.0
+heroku==0.1.4
 idna==2.10
 iniconfig==1.0.1
 ipython==7.17.0
@@ -36,6 +37,7 @@ pylint==2.5.3
 pyparsing==2.4.7
 pytest==6.0.1
 pytest-django==3.9.0
+python-dateutil==1.5
 pytz==2020.1
 regex==2020.7.14
 requests==2.24.0
