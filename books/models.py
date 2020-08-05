@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Author(models.Model):
-    # Using text fields because maximum number of characters is unknown
+    # Using text fields for most of the models because maximum number of characters is unknown 
     name = models.TextField(unique=True)
 
     def __str__(self):
