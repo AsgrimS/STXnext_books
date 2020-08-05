@@ -28,9 +28,7 @@ class BookViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewS
         if published_date is not None:
 
             if not re.match(r"^\d{4}$", published_date):
-                raise ValidationError(
-                    "Value for published date has to be year (4 digits)"
-                )
+                raise ValidationError("Value for published date has to be year (4 digits)")
 
             queryset = queryset.filter(published_date__year=published_date)
 

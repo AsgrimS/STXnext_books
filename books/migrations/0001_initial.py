@@ -13,15 +13,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Author",
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID",),),
                 ("name", models.TextField(unique=True)),
             ],
             options={"verbose_name": "author", "verbose_name_plural": "authors",},
@@ -29,15 +21,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Category",
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID",),),
                 ("tag", models.TextField(unique=True)),
             ],
             options={"verbose_name": "category", "verbose_name_plural": "categories",},
@@ -45,16 +29,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Book",
             fields=[
-                (
-                    "book_id",
-                    models.TextField(editable=False, primary_key=True, serialize=False),
-                ),
+                ("book_id", models.TextField(editable=False, primary_key=True, serialize=False),),
                 ("title", models.TextField()),
                 ("published_date", models.DateField(null=True)),
-                (
-                    "average_rating",
-                    models.DecimalField(decimal_places=1, max_digits=2, null=True),
-                ),
+                ("average_rating", models.DecimalField(decimal_places=1, max_digits=2, null=True),),
                 ("ratings_count", models.IntegerField(null=True)),
                 ("thumbnail", models.URLField(null=True)),
                 ("authors", models.ManyToManyField(to="books.Author")),

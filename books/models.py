@@ -28,9 +28,7 @@ class Category(models.Model):
 # Since data in google API is not consistent across all books and some of them lack fields like
 # rating/authors etc.. part of the fields are null-able
 class Book(models.Model):
-    book_id = models.TextField(
-        primary_key=True, editable=False
-    )  # Using ID of book from google's api as a primary key
+    book_id = models.TextField(primary_key=True, editable=False)  # Using ID of book from google's api as a primary key
     title = models.TextField()
     authors = models.ManyToManyField("books.Author")
     published_date = models.DateField(null=True)
